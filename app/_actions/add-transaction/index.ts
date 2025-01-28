@@ -2,10 +2,24 @@
 
 import { db } from "@/app/_lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { Prisma } from "@prisma/client";
+import {
+  TransactionCategory,
+  TransactionPaymentMethod,
+  TransactionType,
+} from "@prisma/client";
 import { addTransactionSchema } from "./schema";
+import { revalidatePath } from "next/cache";
 
-export const addTransaction = async (params: Prisma.TransactionCreateInput) => {
+interface AddTransactionparams {
+  name: string;
+  amount: number;
+  type: TransactionType;
+  category: TransactionCategory;
+  paymentMethod: TransactionPaymentMethod;
+  date: Date;
+}
+
+export const addTransaction = async (params: AddTransactionparams) => {
   addTransactionSchema.parse(params);
   const { userId } = await auth();
   if (!userId) {
@@ -14,4 +28,5 @@ export const addTransaction = async (params: Prisma.TransactionCreateInput) => {
   await db.transaction.create({
     data: { ...params, userId },
   });
+  revalidatePath("/transactions");
 };

@@ -10,6 +10,9 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .scrollbar-no-buttons::-webkit-scrollbar-button {
+    display: none;
+  }
 }
 
 @layer base {

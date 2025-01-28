@@ -43,6 +43,7 @@ import {
 } from "../_constants/transactions";
 import { DatePicker } from "./ui/date-picker";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { addTransaction } from "../_actions/add-transaction";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -81,7 +82,7 @@ const AddTransactionButton = () => {
   });
 
   const onSubmit = (data: FormSchema) => {
-    console.log(data);
+    await addTransaction(data);
   };
 
   return (

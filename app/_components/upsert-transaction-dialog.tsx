@@ -99,6 +99,7 @@ const UpsertTransactionDialog = ({
     try {
       await upsertTransaction({ ...data, id: transactionId });
       setIsOpen(false);
+      form.reset();
     } catch (error) {
       console.error(error);
     }
@@ -110,10 +111,10 @@ const UpsertTransactionDialog = ({
     <Dialog
       open={isOpen}
       onOpenChange={(open) => {
-        setIsOpen(true);
+        setIsOpen(open);
         if (!open) {
           form.reset();
-          setIsOpen(false);
+          // setIsOpen(false);
         }
       }}
     >

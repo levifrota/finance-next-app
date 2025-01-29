@@ -9,6 +9,8 @@ import { getDashboard } from "../_data/get-dashboard";
 import ExpensesPerCategory from "./_components/expenses-per-category";
 import LastTransactions from "./_components/last-transactions";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
+import AiReportButton from "./_components/ai-report-button";
+import { ScrollArea } from "../_components/ui/scroll-area";
 
 interface HomeProps {
   searchParams: {
@@ -36,10 +38,13 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
     <>
       <Navbar />
 
-      <div className="flex flex-col space-y-6 p-6 sm:overflow-hidden">
-        <div className="flex justify-between">
+      <ScrollArea className="m-3 flex flex-col space-y-6 sm:m-0 sm:overflow-hidden sm:p-6">
+        <div className="m-3 flex justify-between">
           <h1 className="py-2 text-2xl font-bold md:py-0">Painel</h1>
-          <TimeSelect />
+          <div className="flex items-center gap-3">
+            <AiReportButton month={month} />
+            <TimeSelect />
+          </div>
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-[2fr,1fr] sm:overflow-hidden">
           <div className="flex flex-col gap-6 sm:overflow-hidden">
@@ -49,7 +54,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
               userCanAddTransaction={userCanAddTransaction}
             />
 
-            <div className="grid h-[80vh] grid-cols-1 gap-6 sm:h-auto sm:grid-cols-3 sm:grid-rows-1">
+            <div className="grid grid-cols-1 gap-6 sm:h-auto sm:grid-cols-3 sm:grid-rows-1">
               <TransactionsPieChart {...dashboard} />
               <ExpensesPerCategory
                 expensesPerCategory={dashboard.totalExpensePerCategory}
@@ -58,7 +63,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
           </div>
           <LastTransactions lastTransactions={dashboard.lastTransactions} />
         </div>
-      </div>
+      </ScrollArea>
     </>
   );
 };

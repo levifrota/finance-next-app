@@ -119,8 +119,8 @@ const UpsertTransactionDialog = ({
       }}
     >
       <DialogTrigger asChild></DialogTrigger>
-      <DialogContent className="h-5/6 pr-0">
-        <ScrollArea className="m-0 h-full w-full rounded-md pr-4">
+      <DialogContent className="h-5/6 w-[80%] pr-0 sm:w-full">
+        <ScrollArea className="m-0 h-full rounded-md pr-4">
           <DialogHeader>
             <DialogTitle>
               {isUpdate ? "Editar" : "Adicionar"} Transação
@@ -270,7 +270,7 @@ const UpsertTransactionDialog = ({
                     Cancelar
                   </Button>
                 </DialogClose>
-                <Button type="submit">
+                <Button className="mb-3 sm:mb-0" type="submit">
                   {isUpdate ? "Atualizar" : "Adicionar"}
                 </Button>
               </DialogFooter>

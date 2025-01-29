@@ -31,7 +31,7 @@ const Transactions = async () => {
           <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
 
-        <ScrollArea>
+        <ScrollArea className="h-[80%]">
           <DataTable columns={transactionColumns} data={transactions} />
         </ScrollArea>
       </div>

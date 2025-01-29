@@ -154,11 +154,9 @@ const UpsertTransactionDialog = ({
                       <MoneyInput
                         placeholder="Digite o valor"
                         value={field.value}
-                        onValueChange={({
-                          floatValue,
-                        }: {
-                          floatValue: number;
-                        }) => field.onChange(floatValue)}
+                        onValueChange={({ floatValue }) =>
+                          field.onChange(floatValue)
+                        }
                         onBlur={field.onBlur}
                         disabled={field.disabled}
                       />

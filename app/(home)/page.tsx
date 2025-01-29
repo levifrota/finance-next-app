@@ -6,6 +6,7 @@ import TimeSelect from "../_components/time-select";
 import { isMatch } from "date-fns";
 import TransactionsPieChart from "./_components/transactions-pie-chart";
 import { getDashboard } from "../_data/get-dashboard";
+import ExpensesPerCategory from "./_components/expenses-per-category";
 
 interface HomeProps {
   searchParams: {
@@ -35,12 +36,15 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
           <h1 className="py-2 text-2xl font-bold md:py-0">Painel</h1>
           <TimeSelect />
         </div>
-        <div className="grid grid-cols-[2fr,1fr]">
+        <div className="grid grid-cols-1 sm:grid-cols-[2fr,1fr]">
           <div className="flex flex-col gap-6">
             <SummaryCards month={month} {...dashboard} />
 
-            <div className="grid grid-cols-3 grid-rows-1 gap-6">
+            <div className="grid h-[80vh] grid-cols-1 gap-6 sm:h-auto sm:grid-cols-3 sm:grid-rows-1">
               <TransactionsPieChart {...dashboard} />
+              <ExpensesPerCategory
+                expensesPerCategory={dashboard.totalExpensePerCategory}
+              />
             </div>
           </div>
         </div>

@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 
-interface PrecentageItemProps {
+interface PercentageItemProps {
   value: number;
   title: string;
   icon: ReactNode;
 }
 
-const PercentageItem = ({ title, value, icon }: PrecentageItemProps) => {
+const PercentageItem = ({ title, value, icon }: PercentageItemProps) => {
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">

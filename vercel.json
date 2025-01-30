@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "./app/(home)/_components/ai-report-button.tsx": {
+      "maxDuration": 60
+    }
+  }
+}

@@ -5,6 +5,13 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 import OpenAI from "openai";
 import { GenerateAiReportSchema, generateAiReportSchema } from "./schema";
 
+const fetchWithTimeout = async (promise, timeoutMs: number) => {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("Timeout na API da OpenAI")), timeoutMs),
+  );
+  return Promise.race([promise, timeout]);
+};
+
 export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
   generateAiReportSchema.parse({ month });
   const { userId } = await auth();
@@ -27,8 +34,6 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  console.log("openAi", openAi);
-
   const transactions = await db.transaction.findMany({
     where: {
       date: {
@@ -46,22 +51,29 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
     )
     .join(";")}`;
 
-  const completion = await openAi.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      {
-        role: "system",
-        content:
-          "Você é um especialista em gestão e organização de finanças pessoais. Você ajuda as pessoas a organizarem melhor as suas finanças.",
-      },
-      {
-        role: "user",
-        content,
-      },
-    ],
-  });
+  try {
+    const completion = await fetchWithTimeout(
+      openAi.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Você é um especialista em gestão e organização de finanças pessoais. Você ajuda as pessoas a organizarem melhor as suas finanças.",
+          },
+          {
+            role: "user",
+            content,
+          },
+        ],
+      }),
+      30000,
+    );
+    console.log("completion", completion);
 
-  console.log("completion", completion);
-
-  return completion.choices[0].message.content;
+    return completion.choices[0].message.content;
+  } catch (error) {
+    console.error("Erro ao chamar a OpenAI:", error);
+    throw new Error("A requisição demorou muito tempo ou falhou.");
+  }
 };

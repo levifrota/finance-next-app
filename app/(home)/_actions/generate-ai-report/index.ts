@@ -26,6 +26,9 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
   const openAi = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
+
+  console.log("openAi", openAi);
+
   const transactions = await db.transaction.findMany({
     where: {
       date: {
@@ -34,6 +37,7 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
       },
     },
   });
+
   const content = `Gere um relatório com insights sobre as minhas finanças, com dicas e orientações de como melhorar minha vida financeira. As transações estão divididas por ponto e vírgula. A estrutura de cada uma é {DATA}-{TIPO}-{VALOR}-{CATEGORIA}. São elas:
   ${transactions
     .map(
@@ -56,6 +60,8 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
       },
     ],
   });
+
+  console.log("completion", completion);
 
   return completion.choices[0].message.content;
 };

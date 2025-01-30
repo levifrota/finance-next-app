@@ -28,13 +28,13 @@ const Transactions = async () => {
   return (
     <>
       <Navbar />
-      <div className="space-y-6 overflow-hidden p-6">
+      <div className="flex flex-col space-y-6 overflow-hidden p-6">
         <div className="flex w-full flex-col items-center justify-between md:flex-row">
           <h1 className="py-2 text-2xl font-bold md:py-0">Transações</h1>
           <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
 
-        <ScrollArea className="h-[80%]">
+        <ScrollArea className="h-full">
           <div>
             <DataTable
               columns={transactionColumns}

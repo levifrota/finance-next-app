@@ -40,10 +40,12 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
     <>
       <Navbar />
 
-      <ScrollArea className="m-3 flex flex-col space-y-6 sm:m-0 sm:overflow-hidden sm:p-6">
-        <div className="m-3 flex justify-between">
-          <h1 className="py-2 text-2xl font-bold md:py-0">Painel</h1>
-          <div className="flex items-center gap-3">
+      <ScrollArea className="m-3 mt-0 flex flex-col sm:m-0 sm:overflow-hidden sm:p-6">
+        <div className="m-3 flex flex-col justify-between sm:flex-row">
+          <h1 className="self-center py-2 text-2xl font-bold sm:self-auto md:py-0">
+            Painel
+          </h1>
+          <div className="flex flex-row items-center justify-between gap-3 sm:justify-normal">
             <AiReportButton
               month={month}
               hasPremiumPlan={

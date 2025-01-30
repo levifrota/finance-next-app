@@ -5,6 +5,7 @@ import {
   WalletIcon,
 } from "lucide-react";
 import SummaryCard from "./summary-card";
+import { ScrollArea, ScrollBar } from "@/app/_components/ui/scroll-area";
 
 interface SummaryCards {
   month: string;
@@ -31,24 +32,26 @@ const SummaryCards = async ({
         size={"large"}
         userCanAddTransaction={userCanAddTransaction}
       />
-
-      <div className="grid grid-cols-3 gap-6">
-        <SummaryCard
-          icon={<PiggyBankIcon size={16} className="text-primary" />}
-          title={"Investido"}
-          amount={investmentsTotal}
-        />
-        <SummaryCard
-          icon={<TrendingDownIcon size={16} className="text-red-500" />}
-          title={"Despesas"}
-          amount={expensesTotal}
-        />
-        <SummaryCard
-          icon={<TrendingUpIcon size={16} />}
-          title={"Receita"}
-          amount={depositsTotal}
-        />
-      </div>
+      <ScrollArea>
+        <div className="flex max-w-[100%] flex-row justify-center gap-6 sm:grid sm:grid-cols-3">
+          <SummaryCard
+            icon={<PiggyBankIcon size={16} className="text-primary" />}
+            title={"Investido"}
+            amount={investmentsTotal}
+          />
+          <SummaryCard
+            icon={<TrendingDownIcon size={16} className="text-red-500" />}
+            title={"Despesas"}
+            amount={expensesTotal}
+          />
+          <SummaryCard
+            icon={<TrendingUpIcon size={16} />}
+            title={"Receita"}
+            amount={depositsTotal}
+          />
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 };

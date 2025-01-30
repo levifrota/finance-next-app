@@ -57,7 +57,7 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
   try {
     const completion = await fetchWithTimeout(
       openAi.chat.completions.create({
-        model: "gpt-3.5",
+        model: "gpt-3.5-turbo",
         messages: [
           {
             role: "system",

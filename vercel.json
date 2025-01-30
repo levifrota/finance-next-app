@@ -1,6 +1,6 @@
 {
   "functions": {
-    "./app/(home)/_components/ai-report-button.tsx": {
+    "./app/**/**/*.tsx": {
       "maxDuration": 60
     }
   }

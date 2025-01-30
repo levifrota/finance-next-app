@@ -17,8 +17,6 @@ import { useCallback, useRef, useState } from "react";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import Markdown from "react-markdown";
 import Link from "next/link";
-import jsPDF from "jspdf";
-import "jspdf/dist/polyfills.es.js";
 
 interface AiReportButtonProps {
   hasPremiumPlan: boolean;
@@ -42,12 +40,13 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
     }
   };
 
-  const handleDownloadPdf = useCallback(() => {
+  const handleDownloadPdf = useCallback(async () => {
     console.log("report", report);
     console.log("pdfRef", pdfRef.current);
 
-    if (!report) return;
-    if (!pdfRef.current) return;
+    if (!report || !pdfRef.current) return;
+
+    const { default: jsPDF } = await import("jspdf");
 
     const doc = new jsPDF({
       orientation: "p",
@@ -74,7 +73,7 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
           Relatório IA <BotIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[80%] max-w-[90%] sm:max-h-[80%] sm:max-w-[450px]">
+      <DialogContent className="max-h-[90%] max-w-[90%] sm:max-h-none sm:max-w-[450px]">
         {hasPremiumPlan ? (
           <>
             <DialogHeader>

@@ -5,8 +5,11 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 import OpenAI from "openai";
 import { GenerateAiReportSchema, generateAiReportSchema } from "./schema";
 
-const fetchWithTimeout = async (promise, timeoutMs: number) => {
-  const timeout = new Promise((_, reject) =>
+const fetchWithTimeout = async <T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+): Promise<T> => {
+  const timeout = new Promise<T>((_, reject) =>
     setTimeout(() => reject(new Error("Timeout na API da OpenAI")), timeoutMs),
   );
   return Promise.race([promise, timeout]);

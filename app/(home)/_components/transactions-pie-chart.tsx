@@ -84,17 +84,17 @@ const TransactionsPieChart = ({
         <div className="space-y-3">
           <PercentageItem
             icon={<TrendingUpIcon size={16} className="text-primary" />}
-            value={typesPercentage[TransactionType.DEPOSIT]}
+            value={typesPercentage[TransactionType.DEPOSIT] || 0}
             title="Receita"
           />
           <PercentageItem
             icon={<TrendingDownIcon size={16} className="text-red-500" />}
-            value={typesPercentage[TransactionType.EXPENSE]}
+            value={typesPercentage[TransactionType.EXPENSE] || 0}
             title="Despesa"
           />
           <PercentageItem
             icon={<PiggyBankIcon size={16} />}
-            value={typesPercentage[TransactionType.INVESTMENT]}
+            value={typesPercentage[TransactionType.INVESTMENT] || 0}
             title="Investido"
           />
         </div>

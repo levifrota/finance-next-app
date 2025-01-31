@@ -10,11 +10,16 @@ export const getDashboard = async (month: string) => {
     throw new Error("Unauthorized");
   }
 
+  const year = 2025;
+  const m = parseInt(month);
+  const nextMonth = m === 12 ? 1 : m + 1;
+  const nextYear = m === 12 ? year + 1 : year;
+
   const where = {
     userId,
     date: {
-      gte: new Date(`2025-${month}-01`),
-      lt: new Date(`2025-${month}-31`),
+      gte: new Date(year, m - 1, 1),
+      lt: new Date(nextYear, nextMonth - 1, 1),
     },
   };
   const depositsTotal = Number(
@@ -45,6 +50,7 @@ export const getDashboard = async (month: string) => {
   );
 
   const balance = depositsTotal - investmentsTotal - expensesTotal;
+
   const transactionsTotal = Number(
     (
       await db.transaction.aggregate({

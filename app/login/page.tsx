@@ -28,7 +28,10 @@ const LoginPage = async () => {
           monitorar suas movimentações, e oferecer insights personalizados,
           facilitando o controle do seu orçamento.
         </p>
-        <SignInButton fallbackRedirectUrl="/" signUpFallbackRedirectUrl="/">
+        <SignInButton
+          fallbackRedirectUrl="/?month=01"
+          signUpFallbackRedirectUrl="/"
+        >
           <Button variant="outline" className="border border-slate-400">
             <LogInIcon className="mr-2" />
             Fazer Login ou Criar Conta
@@ -36,7 +39,7 @@ const LoginPage = async () => {
         </SignInButton>
       </div>
 
-      <div className="sm:opacity-1 relative h-full w-full opacity-25">
+      <div className="relative h-full w-full opacity-25 sm:opacity-100">
         <Image
           src="/login.png"
           alt="Faça o Login"

@@ -1,6 +1,6 @@
 {
   "functions": {
-    "app/components/": {
+    "app/(home)/**/*.ts": {
       "maxDuration": 20
     }
   }

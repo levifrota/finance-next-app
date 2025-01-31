@@ -15,6 +15,7 @@ const fetchWithTimeout = async <T>(
   return Promise.race([promise, timeout]);
 };
 
+export const maxDuration = 20;
 export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
   generateAiReportSchema.parse({ month });
   const { userId } = await auth();
@@ -57,7 +58,7 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
   try {
     const completion = await fetchWithTimeout(
       openAi.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",

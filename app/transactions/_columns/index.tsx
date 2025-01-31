@@ -55,7 +55,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "actions",
-    header: "",
+    header: "Ações",
     cell: ({ row: { original: transaction } }) => {
       return (
         <div className="space-x-1">

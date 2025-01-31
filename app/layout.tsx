@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { ptBR } from "@clerk/localizations";
 import { Toaster } from "sonner";
+import { FontSizeProvider } from "@/app/_context/font-size-context";
 
 const mulish = Mulish({
   subsets: ["latin-ext"],
@@ -27,7 +28,6 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "default",
     title: APP_DEFAULT_TITLE,
-    // startUpImage: [],
   },
   formatDetection: {
     telephone: false,
@@ -63,17 +63,19 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${mulish.className} dark antialiased`}>
-        <ClerkProvider
-          localization={ptBR}
-          appearance={{
-            baseTheme: dark,
-          }}
-        >
-          <div className="flex h-full flex-col sm:overflow-hidden">
-            {children}
-          </div>
-        </ClerkProvider>
-        <Toaster />
+        <FontSizeProvider>
+          <ClerkProvider
+            localization={ptBR}
+            appearance={{
+              baseTheme: dark,
+            }}
+          >
+            <div className="flex h-full flex-col sm:overflow-hidden">
+              {children}
+            </div>
+          </ClerkProvider>
+          <Toaster />
+        </FontSizeProvider>
       </body>
     </html>
   );

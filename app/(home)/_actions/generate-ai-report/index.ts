@@ -15,7 +15,6 @@ const fetchWithTimeout = async <T>(
   return Promise.race([promise, timeout]);
 };
 
-export const maxDuration = 20;
 export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
   generateAiReportSchema.parse({ month });
   const { userId } = await auth();

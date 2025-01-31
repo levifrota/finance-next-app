@@ -14,7 +14,7 @@ const LoginPage = async () => {
 
   return (
     <div className="h-full sm:grid sm:grid-cols-2">
-      <div className="flex h-full max-w-[550px] flex-col justify-center p-8">
+      <div className="absolute z-10 flex h-full max-w-[550px] flex-col justify-center p-8 sm:relative">
         <Image
           src="/logo.svg"
           width={173}
@@ -23,20 +23,20 @@ const LoginPage = async () => {
           className="mb-8"
         />
         <h1 className="mb-3 text-4xl font-bold">Bem Vindo(a)!</h1>
-        <p className="mb-8 text-muted-foreground">
+        <p className="text-muted-accent mb-8">
           A Poupa.ai é uma plataforma de gestão financeira que utiliza IA para
           monitorar suas movimentações, e oferecer insights personalizados,
           facilitando o controle do seu orçamento.
         </p>
-        <SignInButton>
-          <Button variant="outline">
+        <SignInButton forceRedirectUrl="/">
+          <Button variant="outline" className="border border-slate-400">
             <LogInIcon className="mr-2" />
             Fazer Login ou Criar Conta
           </Button>
         </SignInButton>
       </div>
 
-      <div className="relative h-full w-full">
+      <div className="relative h-full w-full opacity-25 sm:opacity-100">
         <Image
           src="/login.png"
           alt="Faça o Login"

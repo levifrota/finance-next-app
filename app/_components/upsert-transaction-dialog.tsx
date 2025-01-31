@@ -114,7 +114,6 @@ const UpsertTransactionDialog = ({
         setIsOpen(open);
         if (!open) {
           form.reset();
-          // setIsOpen(false);
         }
       }}
     >

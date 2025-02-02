@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "../_components/ui/button";
-import { LogInIcon } from "lucide-react";
-import { SignInButton } from "@clerk/nextjs";
+import { LogInIcon, UserPenIcon } from "lucide-react";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -34,12 +34,33 @@ const LoginPage = async () => {
           facilitando o controle do seu orçamento.
         </p>
 
-        <SignInButton forceRedirectUrl="/?month=01">
-          <Button variant="outline" className="border border-slate-400">
+        <SignInButton
+          forceRedirectUrl="/"
+          signUpFallbackRedirectUrl="/"
+          fallbackRedirectUrl="/"
+        >
+          <Button
+            variant="outline"
+            className="w-52 self-center border border-slate-400 hover:bg-primary hover:text-black"
+          >
             <LogInIcon className="mr-2" />
-            Fazer Login ou Criar Conta
+            Fazer Login
           </Button>
         </SignInButton>
+
+        <SignUpButton
+          forceRedirectUrl="/"
+          signInFallbackRedirectUrl="/"
+          fallbackRedirectUrl="/"
+        >
+          <Button
+            variant="outline"
+            className="mt-2 w-52 self-center border border-slate-400 hover:bg-primary hover:text-black"
+          >
+            <UserPenIcon className="mr-2" />
+            Criar Conta
+          </Button>
+        </SignUpButton>
       </div>
 
       <div className="relative h-full w-full opacity-25 sm:opacity-100">

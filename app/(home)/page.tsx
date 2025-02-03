@@ -11,12 +11,18 @@ import LastTransactions from "./_components/last-transactions";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 import AiReportButton from "./_components/ai-report-button";
 import { ScrollArea } from "../_components/ui/scroll-area";
+import dynamic from "next/dynamic";
 
 interface HomeProps {
   searchParams: {
     month: string;
   };
 }
+
+const ScreenWrapper = dynamic(
+  () => import("@/app/_components/screen-wrapper"),
+  { ssr: false },
+);
 
 const Home = async ({ searchParams: { month } }: HomeProps) => {
   const { userId } = await auth();
@@ -73,6 +79,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
           <LastTransactions lastTransactions={dashboard.lastTransactions} />
         </div>
       </ScrollArea>
+      <ScreenWrapper />
     </>
   );
 };

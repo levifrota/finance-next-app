@@ -7,6 +7,12 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ScrollArea, ScrollBar } from "../_components/ui/scroll-area";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
+import dynamic from "next/dynamic";
+
+const ScreenWrapper = dynamic(
+  () => import("@/app/_components/screen-wrapper"),
+  { ssr: false },
+);
 
 const Transactions = async () => {
   const { userId } = await auth();
@@ -44,6 +50,7 @@ const Transactions = async () => {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
+      <ScreenWrapper />
     </>
   );
 };

@@ -25,7 +25,7 @@ const Footer = () => {
   }
 
   return (
-    <Menubar className="absolute bottom-0 flex h-16 w-full justify-around">
+    <Menubar className="relative bottom-0 flex h-16 w-full justify-around">
       <MenubarMenu>
         <MenubarTrigger>
           <Link href="/" className={linkClasses("/")}>

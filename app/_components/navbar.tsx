@@ -41,7 +41,6 @@ const Navbar = () => {
       </div>
       <div className="hidden md:block">
         <UserButton showName />
-              
       </div>
     </nav>
   );

@@ -30,7 +30,7 @@ export default function SettingsPage() {
     <div className="h-full">
       <Navbar />
 
-      <div className="h-full p-6">
+      <div className="h-[86%] p-6 md:h-full">
         <h1 className="mb-4 text-xl font-bold">Configurações</h1>
 
         <div className="mb-6">

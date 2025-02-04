@@ -18,7 +18,9 @@ const SummaryCard = ({
   userCanAddTransaction,
 }: SummaryCardProps) => {
   return (
-    <Card className={`${size === "large" ? "bg-white bg-opacity-5" : ""}`}>
+    <Card
+      className={`${size === "large" ? "flex w-[90%] flex-col bg-white bg-opacity-5 sm:block sm:w-full" : ""}`}
+    >
       <CardHeader className="flex-row items-center gap-4">
         {icon}
         <p

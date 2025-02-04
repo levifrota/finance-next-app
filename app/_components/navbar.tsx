@@ -1,5 +1,6 @@
 "use client";
 
+import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -37,6 +38,10 @@ const Navbar = () => {
             Configurações
           </Link>
         </div>
+      </div>
+      <div className="hidden md:block">
+        <UserButton showName />
+              
       </div>
     </nav>
   );

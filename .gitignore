@@ -26,7 +26,12 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 
 # vercel
 .vercel
@@ -37,3 +42,4 @@ next-env.d.ts
 
 #docker
 .postgres-data
+public/sw.js.map

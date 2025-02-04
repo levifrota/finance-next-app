@@ -1,18 +1,17 @@
 "use client";
 
-import React from "react";
-import { useFontSize } from "@/app/_context/font-size-context";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/app/_components/ui/select";
-import { Button } from "../_components/ui/button";
-import Navbar from "../_components/navbar";
-import Link from "next/link";
+import { useFontSize } from "@/app/_context/font-size-context";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import Navbar from "../_components/navbar";
+import { Button } from "../_components/ui/button";
 
 const ScreenWrapper = dynamic(
   () => import("@/app/_components/screen-wrapper"),
@@ -31,7 +30,7 @@ export default function SettingsPage() {
     <div className="h-full">
       <Navbar />
 
-      <div className="p-6">
+      <div className="h-full p-6">
         <h1 className="mb-4 text-xl font-bold">Configurações</h1>
 
         <div className="mb-6">

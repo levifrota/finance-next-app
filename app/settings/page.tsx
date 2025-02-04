@@ -12,6 +12,12 @@ import {
 import { Button } from "../_components/ui/button";
 import Navbar from "../_components/navbar";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const ScreenWrapper = dynamic(
+  () => import("@/app/_components/screen-wrapper"),
+  { ssr: false },
+);
 
 export default function SettingsPage() {
   const { fontSize, setFontSize } = useFontSize();
@@ -22,7 +28,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <>
+    <div className="h-full">
       <Navbar />
 
       <div className="p-6">
@@ -36,8 +42,8 @@ export default function SettingsPage() {
               <SelectValue placeholder="Selecione um tamanho" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="14">1 (Padrão)</SelectItem>
-              <SelectItem value="16">2</SelectItem>
+              <SelectItem value="14">1</SelectItem>
+              <SelectItem value="16">2 (Padrão)</SelectItem>
               <SelectItem value="18">3</SelectItem>
               <SelectItem value="20">4</SelectItem>
               <SelectItem value="24">5</SelectItem>
@@ -49,6 +55,8 @@ export default function SettingsPage() {
           <Link href="/">Voltar</Link>
         </Button>
       </div>
-    </>
+
+      <ScreenWrapper />
+    </div>
   );
 }

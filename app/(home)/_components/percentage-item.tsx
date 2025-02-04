@@ -8,13 +8,18 @@ interface PercentageItemProps {
 
 const PercentageItem = ({ title, value, icon }: PercentageItemProps) => {
   return (
-    <div className="flex justify-between">
-      <div className="flex items-center gap-3">
-        <div className="rounded-lg bg-white bg-opacity-[3%] p-2">{icon}</div>
-
-        <p className="text-sm text-muted-foreground">{title}</p>
+    <div className="flex w-full items-center justify-between gap-2">
+      <div className="flex-shrink-0 rounded-lg bg-white bg-opacity-[3%] p-2">
+        {icon}
       </div>
-      <p className="text-sm font-bold">{value}%</p>
+
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-xs text-muted-foreground sm:text-sm">
+          {title}
+        </p>
+      </div>
+
+      <p className="flex-shrink-0 text-xs font-bold sm:text-sm">{value}%</p>
     </div>
   );
 };

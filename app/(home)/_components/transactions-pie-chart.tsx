@@ -10,8 +10,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/app/_components/ui/chart";
-import { TransactionType } from "@prisma/client";
 import { TransactionPercentagePerType } from "@/app/_data/get-dashboard/types";
+import { TransactionType } from "@prisma/client";
 import PercentageItem from "./percentage-item";
 
 const chartConfig = {
@@ -62,7 +62,7 @@ const TransactionsPieChart = ({
 
   return (
     <Card className="flex flex-col p-3 sm:p-6">
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1 overflow-hidden pb-0">
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px]"
@@ -81,7 +81,7 @@ const TransactionsPieChart = ({
           </PieChart>
         </ChartContainer>
 
-        <div className="space-y-3">
+        <div className="flex w-full flex-col gap-3">
           <PercentageItem
             icon={<TrendingUpIcon size={16} className="text-primary" />}
             value={typesPercentage[TransactionType.DEPOSIT] || 0}

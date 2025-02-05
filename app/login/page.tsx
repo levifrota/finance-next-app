@@ -4,7 +4,8 @@ import { LogInIcon, UserPenIcon } from "lucide-react";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+
+export const dynamic = "force-dynamic";
 
 const LoginPage = async () => {
   const { userId } = await auth();
@@ -12,8 +13,6 @@ const LoginPage = async () => {
   if (userId) {
     redirect("/");
   }
-
-  revalidatePath("/login");
 
   return (
     <div className="h-full sm:grid sm:grid-cols-2">

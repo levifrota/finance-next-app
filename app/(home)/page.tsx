@@ -41,7 +41,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
 
   const userCanAddTransaction = await canUserAddTransaction();
 
-  const user = await clerkClient.users.getUser(userId);
+  const user = await clerkClient().users.getUser(userId);
   return (
     <>
       <Navbar />

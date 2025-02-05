@@ -20,7 +20,7 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
     throw new Error("Unauthorized");
   }
 
-  const user = await clerkClient.users.getUser(userId);
+  const user = await clerkClient().users.getUser(userId);
 
   const hasPremiumPlan = user.publicMetadata.subscriptionPlan === "premium";
 
@@ -40,7 +40,7 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
     },
   });
 
-  const content = `Estou gerenciando meu orçamento e quero que você gere um relatório com insights sobre as minhas finanças, com dicas e orientações de como melhorar minha vida financeira. As transações estão divididas por ponto e vírgula. A estrutura de cada uma é {DATA}-{TIPO}-{VALOR}-{CATEGORIA}. Atenção, não precisa explicitar a estrutura. Traduza a categoria para português brasileiro. São elas:
+  const content = `Estou gerenciando meu orçamento e quero que você gere um relatório com insights sobre as minhas finanças, com dicas e orientações de como melhorar minha vida financeira. As transações estão divididas por ponto e vírgula. A estrutura de cada uma é {DATA}-{VALOR}-{TIPO}-{CATEGORIA}. Traduza a categoria para português brasileiro. São elas:
   ${transactions
     .map(
       (transaction) =>
@@ -50,7 +50,7 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
 
   try {
     const { text } = await generateText({
-      model: groq("llama-3.2-3b-preview"),
+      model: groq("llama3-70b-8192"),
       messages: [
         {
           role: "system",

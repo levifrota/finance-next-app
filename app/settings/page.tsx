@@ -41,11 +41,10 @@ export default function SettingsPage() {
               <SelectValue placeholder="Selecione um tamanho" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="14">1</SelectItem>
-              <SelectItem value="16">2 (Padrão)</SelectItem>
-              <SelectItem value="18">3</SelectItem>
-              <SelectItem value="20">4</SelectItem>
-              <SelectItem value="24">5</SelectItem>
+              <SelectItem value="14">Pequena</SelectItem>
+              <SelectItem value="16">Média (Padrão)</SelectItem>
+              <SelectItem value="18">Grande</SelectItem>
+              <SelectItem value="20">Extra Grande</SelectItem>
             </SelectContent>
           </Select>
         </div>

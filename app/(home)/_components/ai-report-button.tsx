@@ -41,9 +41,6 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
   };
 
   const handleDownloadPdf = useCallback(async () => {
-    console.log("report", report);
-    console.log("pdfRef", pdfRef.current);
-
     if (!report || !pdfRef.current) return;
 
     const { default: jsPDF } = await import("jspdf");
@@ -56,7 +53,7 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
 
     doc.html(pdfRef.current, {
       callback: function (doc) {
-        doc.save("relatorio.pdf");
+        doc.save("Relatório IA.pdf");
       },
       x: 10,
       y: 10,
@@ -80,7 +77,11 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
               <DialogTitle>Relatório IA</DialogTitle>
               <DialogDescription>
                 Use inteligência artificial para gerar um relatório com
-                informações sobre suas finanças.
+                informações sobre suas finanças. <br />
+                <span className="text-red-500">
+                  Atenção: A ferramenta pode não ser precisa e pode gerar erros.
+                  Use as informações com cuidado.
+                </span>
               </DialogDescription>
             </DialogHeader>
             <ScrollArea className="prose max-h-[450px] text-white prose-h2:text-white prose-h3:text-white prose-h4:text-white prose-strong:text-white">

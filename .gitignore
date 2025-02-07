@@ -43,3 +43,6 @@ next-env.d.ts
 #docker
 .postgres-data
 public/sw.js.map
+
+#serviceAccountKey
+serviceAccountKey.json

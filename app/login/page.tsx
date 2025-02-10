@@ -1,20 +1,30 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "../_components/ui/button";
 import { LogInIcon, UserPenIcon } from "lucide-react";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+// import { auth } from "@clerk/nextjs/server";
+// import { redirect } from "next/navigation";
 import AuthRedirectWrapper from "../_components/auth-redirect-wrapper";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
-const LoginPage = async () => {
-  const { userId } = await auth();
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-  if (userId) {
-    redirect("/");
-  }
+const LoginPage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+
+    console.log("userId", userId);
+
+    if (userId) {
+      router.push("/");
+    }
+  }, [router]);
 
   return (
     <div className="h-full sm:grid sm:grid-cols-2">

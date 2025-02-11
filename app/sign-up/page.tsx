@@ -88,8 +88,8 @@ function SignUp() {
   }
 
   return (
-    <div className="h-full sm:grid sm:grid-cols-2">
-      <div className="absolute z-10 flex h-full max-w-[550px] flex-col justify-center p-8 sm:relative">
+    <div className="flex h-full sm:grid sm:grid-cols-2">
+      <div className="absolute z-10 flex h-full w-full max-w-[550px] flex-col justify-center p-8 sm:relative sm:w-auto">
         <Image
           src="/logo.svg"
           width={173}

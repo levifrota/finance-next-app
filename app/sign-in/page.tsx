@@ -16,6 +16,7 @@ import { Label } from "../_components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { Alert, AlertDescription } from "../_components/ui/alert";
 import Link from "next/link";
+import Image from "next/image";
 
 function SignIn() {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -39,18 +40,15 @@ function SignIn() {
     }
 
     try {
-      // Cria a tentativa de sign in usando email e senha
       const result = await signIn.create({
         identifier: emailAddress,
         password,
       });
 
-      // Se o sign in estiver completo, ativa a sessão e redireciona
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
         router.push("/");
       } else if (result.status === "needs_second_factor") {
-        // Se for necessário um segundo fator, exibe o formulário de verificação
         setPendingVerification(true);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -68,7 +66,6 @@ function SignIn() {
     }
 
     try {
-      // Para fluxos com senha, se for exigido fator, use attemptSecondFactor
       const completeSignIn = await signIn.attemptSecondFactor({
         strategy: "totp",
         code,
@@ -90,95 +87,113 @@ function SignIn() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="test-2xl text-center font-bold">
-            Entrar na Conta
-          </CardTitle>
-          <CardContent>
-            {!pendingVerification ? (
-              <form onSubmit={submit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={emailAddress}
-                    onChange={(e) => setEmailAddress(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Senha</Label>
-                  <div className="relative">
+    <div className="h-full sm:grid sm:grid-cols-2">
+      <div className="absolute z-10 flex h-full w-full max-w-[550px] flex-col justify-center p-8 sm:relative sm:w-auto">
+        <Image
+          src="/logo.svg"
+          width={173}
+          height={39}
+          alt="Poupa aí"
+          className="mb-8"
+        />
+        <Card className="w-full max-w-md bg-black bg-opacity-60 sm:bg-opacity-0 sm:bg-auto">
+          <CardHeader>
+            <CardTitle className="test-2xl text-center font-bold">
+              Entrar na Conta
+            </CardTitle>
+            <CardContent className="p-0 sm:p-6">
+              {!pendingVerification ? (
+                <form onSubmit={submit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
                     <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      id="email"
+                      type="email"
+                      value={emailAddress}
+                      onChange={(e) => setEmailAddress(e.target.value)}
                       required
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-gray-500" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-gray-500" />
-                      )}
-                    </button>
                   </div>
-                </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Senha</Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-500" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
 
-                {error && (
-                  <Alert variant="destructive">
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
-                <Button type="submit" className="w-full">
-                  Entrar na Conta
-                </Button>
-              </form>
-            ) : (
-              <form onSubmit={onPressVerify} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="code">Código de Verificação</Label>
-                  <Input
-                    id="code"
-                    type="text"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    placeholder="Digite o código enviado para o seu email"
-                    required
-                  />
-                </div>
-                {error && (
-                  <Alert variant="destructive">
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
-                <Button type="submit" className="w-full">
-                  Verificar Email
-                </Button>
-              </form>
-            )}
-          </CardContent>
-          <CardFooter className="justify-center">
-            <p className="text-sm text-muted-foreground">
-              Não tem uma conta?{" "}
-              <Link
-                href="/sign-up"
-                className="font-medium text-primary hover:underline"
-              >
-                Criar Conta
-              </Link>
-            </p>
-          </CardFooter>
-        </CardHeader>
-      </Card>
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+                  <Button type="submit" className="w-full">
+                    Entrar na Conta
+                  </Button>
+                </form>
+              ) : (
+                <form onSubmit={onPressVerify} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="code">Código de Verificação</Label>
+                    <Input
+                      id="code"
+                      type="text"
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                      placeholder="Digite o código enviado para o seu email"
+                      required
+                    />
+                  </div>
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+                  <Button type="submit" className="w-full">
+                    Verificar Email
+                  </Button>
+                </form>
+              )}
+            </CardContent>
+            <CardFooter className="justify-center">
+              <p className="text-sm text-muted-foreground">
+                Não tem uma conta?{" "}
+                <Link
+                  href="/sign-up"
+                  className="font-medium text-primary hover:underline"
+                >
+                  Criar Conta
+                </Link>
+              </p>
+            </CardFooter>
+          </CardHeader>
+        </Card>
+      </div>
+
+      <div className="relative h-full w-full opacity-25 sm:opacity-100">
+        <Image
+          src="/login.png"
+          alt="Faça o Login"
+          fill
+          className="object-cover"
+        />
+      </div>
     </div>
   );
 }

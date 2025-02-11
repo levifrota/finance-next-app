@@ -3,13 +3,14 @@
 import Image from "next/image";
 import { Button } from "../_components/ui/button";
 import { LogInIcon, UserPenIcon } from "lucide-react";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+// import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import AuthRedirectWrapper from "../_components/auth-redirect-wrapper";
 
 export const dynamic = "force-dynamic";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -44,25 +45,27 @@ const LoginPage = () => {
             facilitando o controle do seu orçamento.
           </p>
 
-          <SignInButton forceRedirectUrl="/">
-            <Button
-              variant="outline"
-              className="w-52 self-center border border-slate-400 hover:bg-primary hover:text-black"
-            >
+          <Button
+            variant="outline"
+            className="w-52 self-center border border-slate-400 hover:bg-primary hover:text-black"
+            asChild
+          >
+            <Link href="/sign-in">
               <LogInIcon className="mr-2" />
               Fazer Login
-            </Button>
-          </SignInButton>
+            </Link>
+          </Button>
 
-          <SignUpButton forceRedirectUrl="/">
-            <Button
-              variant="outline"
-              className="mt-2 w-52 self-center border border-slate-400 hover:bg-primary hover:text-black"
-            >
+          <Button
+            variant="outline"
+            className="mt-2 w-52 self-center border border-slate-400 hover:bg-primary hover:text-black"
+            asChild
+          >
+            <Link href="/sign-up">
               <UserPenIcon className="mr-2" />
               Criar Conta
-            </Button>
-          </SignUpButton>
+            </Link>
+          </Button>
         </div>
 
         <div className="relative h-full w-full opacity-25 sm:opacity-100">

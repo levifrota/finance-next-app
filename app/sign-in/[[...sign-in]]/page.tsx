@@ -1,35 +1,32 @@
 "use client";
 
 import React, { useState } from "react";
-
-import { useSignUp } from "@clerk/nextjs";
+import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Button } from "../_components/ui/button";
-import { Input } from "../_components/ui/input";
+import { Button } from "../../_components/ui/button";
+import { Input } from "../../_components/ui/input";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../_components/ui/card";
-import { Label } from "../_components/ui/label";
+} from "../../_components/ui/card";
+import { Label } from "../../_components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
-import { Alert, AlertDescription } from "../_components/ui/alert";
+import { Alert, AlertDescription } from "../../_components/ui/alert";
 import Link from "next/link";
 import Image from "next/image";
 
-function SignUp() {
-  const { isLoaded, signUp, setActive } = useSignUp();
-
+function SignIn() {
+  const { isLoaded, signIn, setActive } = useSignIn();
+  const router = useRouter();
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
-  const router = useRouter();
 
   if (!isLoaded) {
     return null;
@@ -43,16 +40,17 @@ function SignUp() {
     }
 
     try {
-      await signUp.create({
-        emailAddress,
+      const result = await signIn.create({
+        identifier: emailAddress,
         password,
       });
 
-      await signUp.prepareEmailAddressVerification({
-        strategy: "email_code",
-      });
-
-      setPendingVerification(true);
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        router.push("/");
+      } else if (result.status === "needs_second_factor") {
+        setPendingVerification(true);
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(JSON.stringify(error, null, 2));
@@ -68,16 +66,17 @@ function SignUp() {
     }
 
     try {
-      const completeSignUp = await signUp.attemptEmailAddressVerification({
+      const completeSignIn = await signIn.attemptSecondFactor({
+        strategy: "totp",
         code,
       });
 
-      if (completeSignUp.status !== "complete") {
-        console.log(JSON.stringify(completeSignUp, null, 2));
+      if (completeSignIn.status !== "complete") {
+        console.log(JSON.stringify(completeSignIn, null, 2));
       }
 
-      if (completeSignUp.status === "complete") {
-        await setActive({ session: completeSignUp.createdSessionId });
+      if (completeSignIn.status === "complete") {
+        await setActive({ session: completeSignIn.createdSessionId });
         router.push("/");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,7 +87,7 @@ function SignUp() {
   }
 
   return (
-    <div className="flex h-full sm:grid sm:grid-cols-2">
+    <div className="h-full sm:grid sm:grid-cols-2">
       <div className="absolute z-10 flex h-full w-full max-w-[550px] flex-col justify-center p-8 sm:relative sm:w-auto">
         <Image
           src="/logo.svg"
@@ -100,7 +99,7 @@ function SignUp() {
         <Card className="w-full max-w-md bg-black bg-opacity-60 sm:bg-opacity-0 sm:bg-auto">
           <CardHeader>
             <CardTitle className="test-2xl text-center font-bold">
-              Criar Conta
+              Entrar na Conta
             </CardTitle>
             <CardContent className="p-0 sm:p-6">
               {!pendingVerification ? (
@@ -145,7 +144,7 @@ function SignUp() {
                     </Alert>
                   )}
                   <Button type="submit" className="w-full">
-                    Criar Conta
+                    Entrar na Conta
                   </Button>
                 </form>
               ) : (
@@ -172,14 +171,14 @@ function SignUp() {
                 </form>
               )}
             </CardContent>
-            <CardFooter className="justify-center p-3 sm:p-6">
+            <CardFooter className="justify-center">
               <p className="text-sm text-muted-foreground">
-                Já tem uma conta?{" "}
+                Não tem uma conta?{" "}
                 <Link
-                  href="/sign-in"
+                  href="/sign-up"
                   className="font-medium text-primary hover:underline"
                 >
-                  Entrar
+                  Criar Conta
                 </Link>
               </p>
             </CardFooter>
@@ -199,4 +198,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignIn;

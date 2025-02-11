@@ -1,32 +1,35 @@
 "use client";
 
 import React, { useState } from "react";
-import { useSignIn } from "@clerk/nextjs";
+
+import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Button } from "../_components/ui/button";
-import { Input } from "../_components/ui/input";
+import { Button } from "../../_components/ui/button";
+import { Input } from "../../_components/ui/input";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../_components/ui/card";
-import { Label } from "../_components/ui/label";
+} from "../../_components/ui/card";
+import { Label } from "../../_components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
-import { Alert, AlertDescription } from "../_components/ui/alert";
+import { Alert, AlertDescription } from "../../_components/ui/alert";
 import Link from "next/link";
 import Image from "next/image";
 
-function SignIn() {
-  const { isLoaded, signIn, setActive } = useSignIn();
-  const router = useRouter();
+function SignUp() {
+  const { isLoaded, signUp, setActive } = useSignUp();
+
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
 
   if (!isLoaded) {
     return null;
@@ -40,17 +43,16 @@ function SignIn() {
     }
 
     try {
-      const result = await signIn.create({
-        identifier: emailAddress,
+      await signUp.create({
+        emailAddress,
         password,
       });
 
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-        router.push("/");
-      } else if (result.status === "needs_second_factor") {
-        setPendingVerification(true);
-      }
+      await signUp.prepareEmailAddressVerification({
+        strategy: "email_code",
+      });
+
+      setPendingVerification(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(JSON.stringify(error, null, 2));
@@ -66,17 +68,16 @@ function SignIn() {
     }
 
     try {
-      const completeSignIn = await signIn.attemptSecondFactor({
-        strategy: "totp",
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
         code,
       });
 
-      if (completeSignIn.status !== "complete") {
-        console.log(JSON.stringify(completeSignIn, null, 2));
+      if (completeSignUp.status !== "complete") {
+        console.log(JSON.stringify(completeSignUp, null, 2));
       }
 
-      if (completeSignIn.status === "complete") {
-        await setActive({ session: completeSignIn.createdSessionId });
+      if (completeSignUp.status === "complete") {
+        await setActive({ session: completeSignUp.createdSessionId });
         router.push("/");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,8 +87,33 @@ function SignIn() {
     }
   }
 
+  const handleGoogleSignUp = async () => {
+    if (!isLoaded) return;
+    try {
+      await signUp.authenticateWithRedirect({
+        strategy: "oauth_google",
+        redirectUrl: "/sign-in",
+        redirectUrlComplete: "/",
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      if (err.code === "authentication_failed") {
+        setError("Authentication with Google failed. Please try again.");
+      } else if (err.code === "form_identifier_exists") {
+        setError(
+          "An account with this Google email already exists. Please sign in instead.",
+        );
+      } else {
+        setError(
+          err.errors[0]?.message ||
+            "An error occurred during Google sign-up. Please try again.",
+        );
+      }
+    }
+  };
+
   return (
-    <div className="h-full sm:grid sm:grid-cols-2">
+    <div className="flex h-full sm:grid sm:grid-cols-2">
       <div className="absolute z-10 flex h-full w-full max-w-[550px] flex-col justify-center p-8 sm:relative sm:w-auto">
         <Image
           src="/logo.svg"
@@ -99,9 +125,29 @@ function SignIn() {
         <Card className="w-full max-w-md bg-black bg-opacity-60 sm:bg-opacity-0 sm:bg-auto">
           <CardHeader>
             <CardTitle className="test-2xl text-center font-bold">
-              Entrar na Conta
+              Criar Conta
             </CardTitle>
             <CardContent className="p-0 sm:p-6">
+              <form onSubmit={handleGoogleSignUp}>
+                <div className="space-y-2">
+                  <Button className="flex w-full items-center justify-center gap-x-3 rounded-md bg-neutral-700 px-3.5 py-1.5 text-sm font-medium text-white shadow-[0_1px_0_0_theme(colors.white/5%)_inset,0_0_0_1px_theme(colors.white/2%)_inset] outline-none hover:bg-gradient-to-b hover:from-white/5 hover:to-white/5 focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-white active:bg-gradient-to-b active:from-black/20 active:to-black/20 active:text-white/70">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 17 16"
+                      className="w-4"
+                      aria-hidden
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M8.82 7.28v2.187h5.227c-.16 1.226-.57 2.124-1.192 2.755-.764.765-1.955 1.6-4.035 1.6-3.218 0-5.733-2.595-5.733-5.813 0-3.218 2.515-5.814 5.733-5.814 1.733 0 3.005.685 3.938 1.565l1.538-1.538C12.998.96 11.256 0 8.82 0 4.41 0 .705 3.591.705 8s3.706 8 8.115 8c2.382 0 4.178-.782 5.582-2.24 1.44-1.44 1.893-3.475 1.893-5.111 0-.507-.035-.978-.115-1.369H8.82Z"
+                      />
+                    </svg>
+                    Login with Google
+                  </Button>
+                </div>
+              </form>
+
               {!pendingVerification ? (
                 <form onSubmit={submit} className="space-y-4">
                   <div className="space-y-2">
@@ -144,7 +190,7 @@ function SignIn() {
                     </Alert>
                   )}
                   <Button type="submit" className="w-full">
-                    Entrar na Conta
+                    Criar Conta
                   </Button>
                 </form>
               ) : (
@@ -171,14 +217,14 @@ function SignIn() {
                 </form>
               )}
             </CardContent>
-            <CardFooter className="justify-center">
+            <CardFooter className="justify-center p-3 sm:p-6">
               <p className="text-sm text-muted-foreground">
-                Não tem uma conta?{" "}
+                Já tem uma conta?{" "}
                 <Link
-                  href="/sign-up"
+                  href="/sign-in"
                   className="font-medium text-primary hover:underline"
                 >
-                  Criar Conta
+                  Entrar
                 </Link>
               </p>
             </CardFooter>
@@ -198,4 +244,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignUp;

@@ -25,10 +25,14 @@ const ScreenWrapper = dynamic(
 );
 
 const Home = async ({ searchParams: { month } }: HomeProps) => {
-  const { userId } = await auth();
+  const { userId } = auth();
 
   if (!userId) {
     redirect("/login");
+  }
+
+  if (typeof window !== "undefined") {
+    localStorage.setItem("userId", userId);
   }
 
   const monthIsInvalid = !month || !isMatch(month, "MM");

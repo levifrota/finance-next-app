@@ -58,7 +58,9 @@ const SubscriptionPage = async () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <XIcon />
-                  <p>Relatórios de IA</p>
+                  <p>Apenas 1 Relatório de IA por mês </p>(
+                  <span className="text-primary">{}</span>
+                  /1)
                 </div>
               </CardContent>
             </Card>
@@ -75,7 +77,7 @@ const SubscriptionPage = async () => {
                 </h2>
                 <div className="flex items-center justify-center gap-3">
                   <span className="text-4xl">R$</span>
-                  <span className="text-6xl font-semibold">19</span>
+                  <span className="text-6xl font-semibold">9</span>
                   <span className="text-2xl text-muted-foreground">/mês</span>
                 </div>
               </CardHeader>

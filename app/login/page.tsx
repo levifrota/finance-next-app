@@ -7,6 +7,7 @@ import { LogInIcon, UserPenIcon } from "lucide-react";
 import AuthRedirectWrapper from "../_components/auth-redirect-wrapper";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";

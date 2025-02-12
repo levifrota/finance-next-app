@@ -3,11 +3,9 @@
 import Image from "next/image";
 import { Button } from "../_components/ui/button";
 import { LogInIcon, UserPenIcon } from "lucide-react";
-// import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import AuthRedirectWrapper from "../_components/auth-redirect-wrapper";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";

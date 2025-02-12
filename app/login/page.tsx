@@ -17,8 +17,6 @@ const LoginPage = () => {
   useEffect(() => {
     const userId = localStorage.getItem("userId");
 
-    console.log("userId", userId);
-
     if (userId) {
       router.push("/");
     }

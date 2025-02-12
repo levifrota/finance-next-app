@@ -19,11 +19,15 @@ const ScreenWrapper = dynamic(
 );
 
 export default function SettingsPage() {
-  const { fontSize, setFontSize } = useFontSize();
+  const { fontSize, setFontSize, fontFamily, setFontFamily } = useFontSize();
 
   const handleSelectChange = (value: string) => {
     const newSize = parseInt(value, 10);
     setFontSize(newSize);
+  };
+
+  const handleFontFamilyChange = (value: string) => {
+    setFontFamily(value);
   };
 
   return (
@@ -45,6 +49,22 @@ export default function SettingsPage() {
               <SelectItem value="16">Média (Padrão)</SelectItem>
               <SelectItem value="18">Grande</SelectItem>
               <SelectItem value="20">Extra Grande</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="mb-6">
+          <h2 className="mb-2 text-lg">Fonte</h2>
+          <Select value={fontFamily} onValueChange={handleFontFamilyChange}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Selecione uma fonte" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="mulish">Padrão</SelectItem>
+              <SelectItem value="OpenDyslexic">
+                Adaptada para Disléxicos
+              </SelectItem>
+              <SelectItem value="Arial, sans-serif">Arial</SelectItem>
             </SelectContent>
           </Select>
         </div>

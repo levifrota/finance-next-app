@@ -24,6 +24,5 @@
   "start_url": "poupaai.vercel.app/",
   "categories": ["education", "finance", "productivity"],
   "description": "Saúde financeira acessível a todos!",
-  "id": "/?month=1",
-  "display_override": ["fullscreen", "window-controls-overlay"]
+  "id": "/?month=1"
 }

@@ -50,11 +50,12 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
     <>
       <Navbar />
 
-      <ScrollArea className="m-3 mt-0 flex flex-col sm:m-0 sm:overflow-hidden sm:p-6">
+      <ScrollArea className="m-0 mt-0 flex flex-col sm:m-0 sm:overflow-hidden sm:p-6">
         <div className="m-3 flex flex-col justify-between sm:flex-row">
           <h1 className="self-center py-2 text-2xl font-bold sm:self-auto md:py-0">
             Painel
           </h1>
+
           <div className="flex flex-row items-center justify-between gap-3 sm:justify-normal">
             <AiReportButton
               month={month}
@@ -62,6 +63,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
                 user.publicMetadata.subscriptionPlan === "premium"
               }
             />
+
             <TimeSelect />
           </div>
         </div>
@@ -75,11 +77,13 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
 
             <div className="grid grid-cols-1 gap-6 sm:h-auto sm:grid-cols-3 sm:grid-rows-1">
               <TransactionsPieChart {...dashboard} />
+
               <ExpensesPerCategory
                 expensesPerCategory={dashboard.totalExpensePerCategory}
               />
             </div>
           </div>
+
           <LastTransactions lastTransactions={dashboard.lastTransactions} />
         </div>
       </ScrollArea>

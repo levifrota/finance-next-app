@@ -20,19 +20,31 @@ const AddTransactionButton = ({
 }: AddTransacitionButtonProps) => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
+  const width = useWindowSize();
+
   return (
     <>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              className="rounded-full"
-              onClick={() => setDialogIsOpen(true)}
-              disabled={!userCanAddTransaction}
-            >
-              <ArrowDownUpIcon />
-              Adicionar Transação
-            </Button>
+            {width ? (
+              <Button
+                className="rounded-full"
+                onClick={() => setDialogIsOpen(true)}
+                disabled={!userCanAddTransaction}
+              >
+                <ArrowDownUpIcon />
+                Adicionar Transação
+              </Button>
+            ) : (
+              <Button
+                className="fixed bottom-[10%] right-[5%] z-10 rounded-full shadow-sm"
+                onClick={() => setDialogIsOpen(true)}
+                disabled={!userCanAddTransaction}
+              >
+                <ArrowDownUpIcon />
+              </Button>
+            )}
           </TooltipTrigger>
           <TooltipContent>
             {!userCanAddTransaction &&
@@ -50,3 +62,6 @@ const AddTransactionButton = ({
 };
 
 export default AddTransactionButton;
+const useWindowSize = () => {
+  return window.innerWidth > 768;
+};

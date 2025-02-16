@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky && prisma generate"
+    "prepare": "husky && prisma generate",
+    "migrate": "ts-node --esm migrateToFirebase.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.1.9",
@@ -34,6 +35,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "firebase": "^11.3.1",
+    "firebase-admin": "^13.1.0",
     "git-commit-msg-linter": "^5.0.8",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",

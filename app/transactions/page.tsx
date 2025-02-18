@@ -1,4 +1,7 @@
-import { db } from "../_lib/prisma";
+"use server";
+
+import { firestoreAdmin } from "@/app/_lib/firebaseAdmin";
+import { Timestamp } from "firebase-admin/firestore";
 import { DataTable } from "../_components/ui/data-table";
 import { transactionColumns } from "./_columns";
 import AddTransactionButton from "../_components/add-transaction-button";
@@ -20,13 +23,22 @@ const Transactions = async () => {
     redirect("/login");
   }
 
-  const transactions = await db.transaction.findMany({
-    where: {
-      userId,
-    },
-    orderBy: {
-      date: "desc",
-    },
+  console.log("userId", userId);
+
+  // Consulta os documentos na subcoleção "transactions" para o usuário
+  const transactionsRef = firestoreAdmin
+    .collection("users")
+    .doc(userId)
+    .collection("transactions");
+  const querySnapshot = await transactionsRef.orderBy("date", "desc").get();
+
+  const transactions = querySnapshot.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data,
+      date: data.date instanceof Timestamp ? data.date.toDate() : data.date,
+    };
   });
 
   const userCanAddTransaction = await canUserAddTransaction();
@@ -39,7 +51,6 @@ const Transactions = async () => {
           <h1 className="py-2 text-2xl font-bold md:py-0">Transações</h1>
           <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
-
         <ScrollArea className="h-full">
           <div>
             <DataTable

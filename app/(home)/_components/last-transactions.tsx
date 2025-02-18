@@ -13,6 +13,8 @@ interface LastTransactionsProps {
 }
 
 const LastTransactions = ({ lastTransactions }: LastTransactionsProps) => {
+  console.log("lastTransactions", lastTransactions);
+
   const getAmountColor = (transaction: Transaction) => {
     if (transaction.type === TransactionType.EXPENSE) {
       return "text-red-500";
@@ -31,6 +33,8 @@ const LastTransactions = ({ lastTransactions }: LastTransactionsProps) => {
       return "+";
     }
   };
+
+  console.log(lastTransactions);
 
   return (
     <ScrollArea className="rounded-md border">

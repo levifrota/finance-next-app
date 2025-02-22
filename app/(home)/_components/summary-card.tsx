@@ -19,7 +19,7 @@ const SummaryCard = ({
 }: SummaryCardProps) => {
   return (
     <Card
-      className={`${size === "large" ? "flex w-[90%] flex-col bg-white bg-opacity-5 sm:block sm:w-full" : ""}`}
+      className={`${size === "large" ? "flex w-[100%] flex-col bg-white bg-opacity-5 sm:block sm:w-full" : ""}`}
     >
       <CardHeader className="flex-row items-center gap-4">
         {icon}

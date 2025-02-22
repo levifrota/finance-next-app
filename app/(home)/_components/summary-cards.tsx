@@ -24,7 +24,7 @@ const SummaryCards = async ({
   userCanAddTransaction,
 }: SummaryCards) => {
   return (
-    <div className="flex flex-col space-y-6 sm:block">
+    <div className="w-100% flex flex-col space-y-6 sm:block">
       <SummaryCard
         icon={<WalletIcon size={16} />}
         title={"Saldo"}

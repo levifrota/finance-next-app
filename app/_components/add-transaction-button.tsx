@@ -40,13 +40,13 @@ const AddTransactionButton = ({
               </Button>
             ) : (
               <Button
-                className="fixed bottom-[10%] right-[5%] z-10 rounded-full shadow-sm"
+                className="fixed bottom-[10%] right-[5%] z-10 rounded-full p-8 shadow-sm"
                 onClick={() => setDialogIsOpen(true)}
                 disabled={!userCanAddTransaction}
                 aria-label="Adicionar Transação"
                 aria-description="Adicione uma despesa, um investimento ou depósito"
               >
-                <ArrowDownUpIcon />
+                <ArrowDownUpIcon className="absolute stroke-[3px]" />
               </Button>
             )}
           </TooltipTrigger>

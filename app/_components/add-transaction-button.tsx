@@ -32,6 +32,8 @@ const AddTransactionButton = ({
                 className="rounded-full"
                 onClick={() => setDialogIsOpen(true)}
                 disabled={!userCanAddTransaction}
+                aria-label="Adicionar Transação"
+                aria-description="Adicione uma despesa, um investimento ou depósito"
               >
                 <ArrowDownUpIcon />
                 Adicionar Transação
@@ -41,6 +43,8 @@ const AddTransactionButton = ({
                 className="fixed bottom-[10%] right-[5%] z-10 rounded-full shadow-sm"
                 onClick={() => setDialogIsOpen(true)}
                 disabled={!userCanAddTransaction}
+                aria-label="Adicionar Transação"
+                aria-description="Adicione uma despesa, um investimento ou depósito"
               >
                 <ArrowDownUpIcon />
               </Button>

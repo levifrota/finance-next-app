@@ -23,83 +23,61 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
 }) => {
   return (
     <div className="bg-gray mb-2 rounded-sm border p-2 shadow-md">
-      {!expanded && (
-        <div onClick={onToggle}>
-          <div className="mb-5 flex cursor-pointer items-center justify-between p-2">
-            <TransactionTypeBadge transaction={transaction} />
-            <p className="font-semibold">
-              {TRANSACTION_CATEGORY_LABELS[transaction.category]}
-            </p>
-          </div>
-          <div className="mb-2 flex cursor-pointer items-center justify-between p-2">
-            <p>
-              {new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              }).format(Number(transaction.amount))}
-            </p>
-            <p>
-              {new Date(transaction.date)
-                .toLocaleDateString("pt-BR", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })
-                .replaceAll("de", "/")
-                .replace(".", "")
-                .toUpperCase()}
-            </p>
-          </div>
+      <div onClick={onToggle}>
+        <div className="mb-5 flex cursor-pointer items-center justify-between p-2">
+          <TransactionTypeBadge transaction={transaction} />
+          <p className="font-semibold">
+            {TRANSACTION_CATEGORY_LABELS[transaction.category]}
+          </p>
         </div>
-      )}
-
-      {expanded && (
-        <div className="bg-gray mb-2 overflow-hidden shadow-md">
-          <div
-            className="mb-5 flex cursor-pointer items-center justify-between p-2"
-            onClick={onToggle}
-          >
-            <TransactionTypeBadge transaction={transaction} />
-            <p>
-              {new Date(transaction.date)
-                .toLocaleDateString("pt-BR", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })
-                .replaceAll("de", "/")
-                .replace(".", "")
-                .toUpperCase()}
-            </p>
-          </div>
-          <div className="mb-5 p-2">
-            <p className="font-semibold">Nome: {transaction.name}</p>
-            <p>
-              Categoria: {TRANSACTION_CATEGORY_LABELS[transaction.category]}
-            </p>
-          </div>
-          <div className="mb-5 h-px w-full bg-gradient-to-r from-transparent via-white to-transparent"></div>
-
-          <div className="p-2">
-            <p>
-              Método de Pagamento:{" "}
-              {TRANSACTION_PAYMENT_METHOD_LABELS[transaction.paymentMethod]}
-            </p>
-            <p>
-              Valor:{" "}
-              {new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              }).format(Number(transaction.amount))}
-            </p>
-          </div>
-
-          <div className="mt-6 flex w-full justify-evenly space-x-2">
-            <EditTransactionButton transaction={transaction} />
-            <DeleteTransactionButton transactionId={transaction.id} />
-          </div>
+        <div className="mb-2 flex cursor-pointer items-center justify-between p-2">
+          <p>
+            {new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }).format(Number(transaction.amount))}
+          </p>
+          <p>
+            {new Date(transaction.date)
+              .toLocaleDateString("pt-BR", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })
+              .replaceAll("de", "/")
+              .replace(".", "")
+              .toUpperCase()}
+          </p>
         </div>
-      )}
+      </div>
+
+      <div
+        className="overflow-hidden transition-all duration-300"
+        style={{ maxHeight: expanded ? "500px" : "0px" }}
+      >
+        <div className="p-2">
+          <p className="font-semibold">Nome: {transaction.name}</p>
+          <p>Categoria: {TRANSACTION_CATEGORY_LABELS[transaction.category]}</p>
+        </div>
+        <div className="mb-5 h-px w-full bg-gradient-to-r from-transparent via-white to-transparent"></div>
+        <div className="p-2">
+          <p>
+            Método de Pagamento:{" "}
+            {TRANSACTION_PAYMENT_METHOD_LABELS[transaction.paymentMethod]}
+          </p>
+          <p>
+            Valor:{" "}
+            {new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }).format(Number(transaction.amount))}
+          </p>
+        </div>
+        <div className="mt-6 flex w-full justify-evenly space-x-2">
+          <EditTransactionButton transaction={transaction} />
+          <DeleteTransactionButton transactionId={transaction.id} />
+        </div>
+      </div>
     </div>
   );
 };

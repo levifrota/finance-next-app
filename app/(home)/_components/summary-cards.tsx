@@ -5,7 +5,7 @@ import {
   WalletIcon,
 } from "lucide-react";
 import SummaryCard from "./summary-card";
-import { ScrollArea, ScrollBar } from "@/app/_components/ui/scroll-area";
+import { ScrollBar } from "@/app/_components/ui/scroll-area";
 
 interface SummaryCards {
   month: string;
@@ -24,7 +24,7 @@ const SummaryCards = async ({
   userCanAddTransaction,
 }: SummaryCards) => {
   return (
-    <div className="flex flex-col space-y-6 sm:block">
+    <div className="w-100% flex flex-col items-center space-y-6 sm:block">
       <SummaryCard
         icon={<WalletIcon size={16} />}
         title={"Saldo"}
@@ -32,26 +32,24 @@ const SummaryCards = async ({
         size={"large"}
         userCanAddTransaction={userCanAddTransaction}
       />
-      <ScrollArea>
-        <div className="flex max-w-[100%] flex-row justify-center gap-6 sm:grid sm:grid-cols-3">
-          <SummaryCard
-            icon={<PiggyBankIcon size={16} className="text-primary" />}
-            title={"Investido"}
-            amount={investmentsTotal}
-          />
-          <SummaryCard
-            icon={<TrendingDownIcon size={16} className="text-red-500" />}
-            title={"Despesas"}
-            amount={expensesTotal}
-          />
-          <SummaryCard
-            icon={<TrendingUpIcon size={16} />}
-            title={"Receita"}
-            amount={depositsTotal}
-          />
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      <div className="grid max-w-[100%] grid-cols-[50%_50%] gap-3 sm:grid-cols-3 sm:gap-6">
+        <SummaryCard
+          icon={<PiggyBankIcon size={16} className="text-primary" />}
+          title={"Investido"}
+          amount={investmentsTotal}
+        />
+        <SummaryCard
+          icon={<TrendingDownIcon size={16} className="text-red-500" />}
+          title={"Despesas"}
+          amount={expensesTotal}
+        />
+        <SummaryCard
+          icon={<TrendingUpIcon size={16} />}
+          title={"Receita"}
+          amount={depositsTotal}
+        />
+      </div>
+      <ScrollBar orientation="horizontal" />
     </div>
   );
 };

@@ -30,7 +30,7 @@ const SubscriptionPage = async () => {
     <>
       <Navbar />
       <ScrollArea>
-        <div className="align-center flex flex-col space-y-6 p-6 sm:block">
+        <div className="flex flex-col flex-wrap content-center items-center space-y-6 p-6 sm:block">
           <h1 className="text-2xl font-bold">Assinatura</h1>
 
           <div className="flex w-[90%] flex-col gap-6 sm:w-auto sm:flex-row">
@@ -58,9 +58,7 @@ const SubscriptionPage = async () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <XIcon />
-                  <p>Apenas 1 Relatório de IA por mês </p>(
-                  <span className="text-primary">{}</span>
-                  /1)
+                  <p>Apenas 1 Relatório de IA por mês </p>
                 </div>
               </CardContent>
             </Card>

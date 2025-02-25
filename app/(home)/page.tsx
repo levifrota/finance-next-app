@@ -50,11 +50,12 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
     <>
       <Navbar />
 
-      <ScrollArea className="m-3 mt-0 flex flex-col sm:m-0 sm:overflow-hidden sm:p-6">
+      <ScrollArea className="m-0 mt-0 flex flex-col sm:m-0 sm:overflow-hidden sm:p-6">
         <div className="m-3 flex flex-col justify-between sm:flex-row">
           <h1 className="self-center py-2 text-2xl font-bold sm:self-auto md:py-0">
             Painel
           </h1>
+
           <div className="flex flex-row items-center justify-between gap-3 sm:justify-normal">
             <AiReportButton
               month={month}
@@ -62,10 +63,11 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
                 user.publicMetadata.subscriptionPlan === "premium"
               }
             />
+
             <TimeSelect />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-[2fr,1fr] sm:overflow-hidden">
+        <div className="grid grid-cols-[2fr,-1fr] gap-6 sm:overflow-hidden lg:grid-cols-[2fr,1fr]">
           <div className="flex flex-col gap-6 sm:overflow-hidden">
             <SummaryCards
               month={month}
@@ -73,13 +75,15 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
               userCanAddTransaction={userCanAddTransaction}
             />
 
-            <div className="grid grid-cols-1 gap-6 sm:h-auto sm:grid-cols-3 sm:grid-rows-1">
+            <div className="grid grid-cols-1 gap-y-6 sm:h-auto sm:grid-rows-1 sm:gap-y-6 md:grid-cols-3 md:gap-6">
               <TransactionsPieChart {...dashboard} />
+
               <ExpensesPerCategory
                 expensesPerCategory={dashboard.totalExpensePerCategory}
               />
             </div>
           </div>
+
           <LastTransactions lastTransactions={dashboard.lastTransactions} />
         </div>
       </ScrollArea>

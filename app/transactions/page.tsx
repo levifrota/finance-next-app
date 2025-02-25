@@ -1,14 +1,13 @@
+// Transactions.tsx (ou page.tsx)
 import { db } from "../_lib/prisma";
-import { DataTable } from "../_components/ui/data-table";
-import { transactionColumns } from "./_columns";
 import AddTransactionButton from "../_components/add-transaction-button";
 import Navbar from "../_components/navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { ScrollArea, ScrollBar } from "../_components/ui/scroll-area";
+import { ScrollArea } from "../_components/ui/scroll-area";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 import dynamic from "next/dynamic";
-
+import ClientComponent from "./_components/client-component";
 const ScreenWrapper = dynamic(
   () => import("@/app/_components/screen-wrapper"),
   { ssr: false },
@@ -41,13 +40,7 @@ const Transactions = async () => {
         </div>
 
         <ScrollArea className="h-full">
-          <div>
-            <DataTable
-              columns={transactionColumns}
-              data={JSON.parse(JSON.stringify(transactions))}
-            />
-          </div>
-          <ScrollBar orientation="horizontal" />
+          <ClientComponent transactions={transactions} />
         </ScrollArea>
       </div>
       <ScreenWrapper />

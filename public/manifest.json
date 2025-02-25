@@ -21,5 +21,8 @@
   "lang": "pt-BR",
   "name": "Poupa.ai",
   "short_name": "Poupa.ai",
-  "start_url": "/"
+  "start_url": "/",
+  "categories": ["education", "finance", "productivity"],
+  "description": "Saúde financeira acessível a todos!",
+  "id": "/?month=1"
 }

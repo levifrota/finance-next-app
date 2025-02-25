@@ -118,7 +118,7 @@ const UpsertTransactionDialog = ({
       }}
     >
       <DialogTrigger asChild></DialogTrigger>
-      <DialogContent className="h-5/6 w-[80%] pr-0 sm:w-full">
+      <DialogContent className="none h-5/6 w-[80%] pr-0 sm:w-full">
         <ScrollArea className="m-0 h-full rounded-md pr-4">
           <DialogHeader>
             <DialogTitle>

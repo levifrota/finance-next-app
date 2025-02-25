@@ -67,7 +67,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
             <TimeSelect />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-[2fr,1fr] sm:overflow-hidden">
+        <div className="grid grid-cols-1 grid-cols-[2fr,-1fr] gap-6 sm:overflow-hidden lg:grid-cols-[2fr,1fr]">
           <div className="flex flex-col gap-6 sm:overflow-hidden">
             <SummaryCards
               month={month}
@@ -75,7 +75,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
               userCanAddTransaction={userCanAddTransaction}
             />
 
-            <div className="grid grid-cols-1 gap-6 sm:h-auto sm:grid-cols-3 sm:grid-rows-1">
+            <div className="grid grid-cols-1 gap-y-6 sm:h-auto sm:grid-rows-1 sm:gap-y-6 md:grid-cols-3 md:gap-6">
               <TransactionsPieChart {...dashboard} />
 
               <ExpensesPerCategory

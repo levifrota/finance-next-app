@@ -21,7 +21,7 @@ const SummaryCard = ({
 
   return (
     <Card
-      className={`${size === "large" ? "flex w-[90%] flex-row bg-white bg-opacity-5 sm:block sm:w-full sm:flex-col" : "w-[30%] sm:w-auto"}`}
+      className={`${size === "large" ? "flex w-[100%] flex-col bg-white bg-opacity-5 sm:block sm:w-full" : ""}`}
     >
       <CardHeader className="flex-row items-center gap-4">
         <div className="hidden sm:block">{icon}</div>

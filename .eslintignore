@@ -1,1 +1,3 @@
 tailwind.config.ts
+app/_utils/isMobile.ts
+app/transactions/_components/client-component.tsx

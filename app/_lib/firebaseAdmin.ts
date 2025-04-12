@@ -1,14 +1,18 @@
-// firebaseAdmin.ts
 import admin from "firebase-admin";
-// import serviceAccount from "../../serviceAccountKey.json" assert { type: "json" };
+
+const serviceAccountBase64 = process.env.FIREBASE_SERVICE_ACCOUNT;
+if (!serviceAccountBase64) {
+  throw new Error("A variável FIREBASE_SERVICE_ACCOUNT não está definida.");
+}
+
+const serviceAccountJson = Buffer.from(serviceAccountBase64, "base64").toString(
+  "utf-8",
+);
+const serviceAccount = JSON.parse(serviceAccountJson);
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-    }),
+    credential: admin.credential.cert(serviceAccount),
   });
 }
 

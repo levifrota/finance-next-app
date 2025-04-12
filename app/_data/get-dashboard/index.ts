@@ -27,15 +27,18 @@ export const getDashboard = async (month: string) => {
   const nextMonth = m === 12 ? 1 : m + 1;
   const nextYear = m === 12 ? year + 1 : year;
 
-  const transactionsRef = firestoreAdmin
+  // const transactionsRef = firestoreAdmin
+  //   .collection("users")
+  //   .doc(userId)
+  //   .collection("transactions");
+
+  const startDate = Timestamp.fromDate(new Date(year, m - 1, 1));
+  const endDate = Timestamp.fromDate(new Date(nextYear, nextMonth - 1, 1));
+
+  const q = firestoreAdmin
     .collection("users")
     .doc(userId)
-    .collection("transactions");
-
-  const startDate = new Date(year, m - 1, 1);
-  const endDate = new Date(nextYear, nextMonth - 1, 1);
-
-  const q = transactionsRef
+    .collection("transactions")
     .where("date", ">=", startDate)
     .where("date", "<", endDate);
 
@@ -43,19 +46,17 @@ export const getDashboard = async (month: string) => {
 
   const transactions: Transaction[] = snapshot.docs.map((doc) => {
     const data = doc.data();
-    const date =
-      data.date && data.date instanceof Timestamp
-        ? data.date.toDate()
-        : (data.date ?? null);
     return {
       id: doc.id,
-      type: data.type,
-      amount: data.amount,
-      category: data.category,
-      paymentMethod: data.paymentMethod,
       name: data.name,
-      date,
-    } as Transaction;
+      createdAt: data.createdAt.toDate(),
+      updatedAt: data.updatedAt.toDate(),
+      type: data.type,
+      amount: Number(data.amount),
+      category: data.category,
+      date: data.date.toDate(),
+      paymentMethod: data.paymentMethod,
+    };
   });
 
   const depositsTotal = transactions

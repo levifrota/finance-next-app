@@ -17,12 +17,16 @@ const SummaryCard = ({
   size = "small",
   userCanAddTransaction,
 }: SummaryCardProps) => {
+  // const width = useWindowSize();
+
   return (
     <Card
-      className={`${size === "large" ? "flex w-[90%] flex-col bg-white bg-opacity-5 sm:block sm:w-full" : ""}`}
+      className={`${size === "large" ? "flex w-[90%] flex-col self-center bg-white bg-opacity-5 sm:block sm:w-full" : "flex flex-col p-3"}`}
     >
-      <CardHeader className="flex-row items-center gap-4">
-        {icon}
+      <CardHeader
+        className={`flex-row items-center gap-4 ${size === "small" ? "p-0 sm:p-6" : "pb-0 sm:p-6"}`}
+      >
+        <div className="hidden sm:block">{icon}</div>
         <p
           className={`${size === "small" ? "text-muted-foreground" : "text-white opacity-70"}`}
         >
@@ -30,10 +34,10 @@ const SummaryCard = ({
         </p>
       </CardHeader>
       <CardContent
-        className={`${size === "large" ? "flex-column flex-wrap sm:flex-row" : "flex-row"} flex justify-between`}
+        className={`${size === "large" ? "flex-wrap p-6 sm:flex-row sm:pt-0" : "flex-row p-0 sm:p-6 sm:pt-0"} flex justify-between`}
       >
         <p
-          className={`${size === "small" ? "text-base sm:text-2xl" : "text-xl sm:text-4xl"} font-bold`}
+          className={`${size === "small" ? "text-base sm:text-2xl" : "text-xl sm:text-4xl"} font-bold ${title === "Despesas" ? "text-red-500" : title === "Receita" ? "text-primary" : "text-white"} sm:text-white`}
         >
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
@@ -50,3 +54,7 @@ const SummaryCard = ({
 };
 
 export default SummaryCard;
+
+// const useWindowSize = () => {
+//   return window.innerWidth > 768;
+// };

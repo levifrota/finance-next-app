@@ -1,10 +1,19 @@
 "use server";
 
-import { db } from "@/app/_lib/prisma";
+import { firestoreAdmin } from "@/app/_lib/firebaseAdmin";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { GenerateAiReportSchema, generateAiReportSchema } from "./schema";
 import { generateText } from "ai";
 import { createOpenAI as createGroq } from "@ai-sdk/openai";
+
+interface FirestoreTransaction {
+  date: FirebaseFirestore.Timestamp;
+  amount: number;
+  type: string;
+  category: string;
+  name: string;
+  userId: string;
+}
 
 export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
   const groq = createGroq({
@@ -15,13 +24,11 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
   generateAiReportSchema.parse({ month });
 
   const { userId } = await auth();
-
   if (!userId) {
     throw new Error("Unauthorized");
   }
 
   const user = await clerkClient().users.getUser(userId);
-
   const hasPremiumPlan = user.publicMetadata.subscriptionPlan === "premium";
 
   if (!hasPremiumPlan) {
@@ -30,14 +37,23 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
     );
   }
 
-  const transactions = await db.transaction.findMany({
-    where: {
-      userId,
-      date: {
-        gte: new Date(`2025-${month}-01`),
-        lt: new Date(`2025-${month}-31`),
-      },
-    },
+  const startDate = new Date(`2025-${month}-01`);
+  const endDate = new Date(`2025-${month}-31`);
+
+  const transactionsSnapshot = await firestoreAdmin
+    .collection("users")
+    .doc(userId)
+    .collection("transactions")
+    .where("date", ">=", startDate)
+    .where("date", "<=", endDate)
+    .get();
+
+  const transactions = transactionsSnapshot.docs.map((doc) => {
+    const data = doc.data() as FirestoreTransaction;
+    return {
+      ...data,
+      date: data.date.toDate(),
+    };
   });
 
   const content = `Estou gerenciando meu orçamento e quero que você gere um relatório com insights sobre as minhas finanças, com dicas e orientações de como melhorar minha vida financeira. As transações estão divididas por ponto e vírgula. A estrutura de cada uma é {DATA}-{VALOR}-{TIPO}-{CATEGORIA}. Traduza a categoria para português brasileiro. São elas:

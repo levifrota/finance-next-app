@@ -1,26 +1,43 @@
-// transaction-constants.ts
+export enum TransactionType {
+  EXPENSE = "EXPENSE",
+  DEPOSIT = "DEPOSIT",
+  INVESTMENT = "INVESTMENT",
+}
 
-export type TransactionType = "EXPENSE" | "DEPOSIT" | "INVESTMENT";
+export enum TransactionCategory {
+  FOOD = "FOOD",
+  HOUSING = "HOUSING",
+  TRANSPORTATION = "TRANSPORTATION",
+  ENTERTAINMENT = "ENTERTAINMENT",
+  HEALTH = "HEALTH",
+  EDUCATION = "EDUCATION",
+  OTHER = "OTHER",
+  SALARY = "SALARY",
+  UTILITY = "UTILITY",
+}
 
-export type TransactionCategory =
-  | "EDUCATION"
-  | "FOOD"
-  | "HOUSING"
-  | "TRANSPORTATION"
-  | "UTILITY"
-  | "HEALTH"
-  | "ENTERTAINMENT"
-  | "OTHER"
-  | "SALARY";
+export enum TransactionPaymentMethod {
+  CASH = "CASH",
+  CREDIT_CARD = "CREDIT_CARD",
+  DEBIT_CARD = "DEBIT_CARD",
+  PIX = "PIX",
+  BANK_TRANSFER = "BANK_TRANSFER",
+  BANK_SLIP = "BANK_SLIP",
+  OTHER = "OTHER",
+}
 
-export type TransactionPaymentMethod =
-  | "CREDIT_CARD"
-  | "DEBIT_CARD"
-  | "BANK_TRANSFER"
-  | "BANK_SLIP"
-  | "CASH"
-  | "PIX"
-  | "OTHER";
+export interface Transaction {
+  id: string;
+  name: string;
+  amount: number;
+  type: TransactionType;
+  category: TransactionCategory;
+  paymentMethod: TransactionPaymentMethod;
+  date: Date;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export const TRANSACTION_CATEGORY_LABELS: Record<TransactionCategory, string> =
   {

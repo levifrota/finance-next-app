@@ -6,6 +6,7 @@ import { dark } from "@clerk/themes";
 import { ptBR } from "@clerk/localizations";
 import { Toaster } from "sonner";
 import { FontSizeProvider } from "@/app/_context/font-size-context";
+import ClientFontWrapper from "@/app/_components/client-font-wrapper";
 
 const mulish = Mulish({
   subsets: ["latin-ext"],
@@ -68,17 +69,19 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${mulish.className} dark antialiased`}>
         <FontSizeProvider>
-          <ClerkProvider
-            localization={ptBR}
-            appearance={{
-              baseTheme: dark,
-            }}
-          >
-            <div className="flex h-full flex-col sm:overflow-hidden">
-              {children}
-            </div>
-          </ClerkProvider>
-          <Toaster />
+          <ClientFontWrapper>
+            <ClerkProvider
+              localization={ptBR}
+              appearance={{
+                baseTheme: dark,
+              }}
+            >
+              <div className="flex h-full flex-col sm:overflow-hidden">
+                {children}
+              </div>
+            </ClerkProvider>
+            <Toaster />
+          </ClientFontWrapper>
         </FontSizeProvider>
       </body>
     </html>

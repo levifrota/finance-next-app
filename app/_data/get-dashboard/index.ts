@@ -1,7 +1,7 @@
 import { db } from "@/app/_lib/prisma";
 import { TotalExpensePerCategory, TransactionPercentagePerType } from "./types";
 import { TransactionType } from "@prisma/client";
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 
 export const getDashboard = async (month: string) => {
   const { userId } = await auth();
@@ -9,6 +9,8 @@ export const getDashboard = async (month: string) => {
   if (!userId) {
     throw new Error("Unauthorized");
   }
+
+  const user = await clerkClient().users.getUser(userId);
 
   const year = 2025;
   const m = parseInt(month);
@@ -22,43 +24,30 @@ export const getDashboard = async (month: string) => {
       lt: new Date(nextYear, nextMonth - 1, 1),
     },
   };
-  const depositsTotal = Number(
-    (
-      await db.transaction.aggregate({
-        where: { ...where, type: "DEPOSIT" },
-        _sum: { amount: true },
-      })
-    )?._sum?.amount,
-  );
 
-  const investmentsTotal = Number(
-    (
-      await db.transaction.aggregate({
-        where: { ...where, type: "INVESTMENT" },
-        _sum: { amount: true },
-      })
-    )?._sum?.amount,
-  );
+  const transactions = await db.transaction.findMany({
+    where,
+    orderBy: {
+      date: "desc",
+    },
+  });
 
-  const expensesTotal = Number(
-    (
-      await db.transaction.aggregate({
-        where: { ...where, type: "EXPENSE" },
-        _sum: { amount: true },
-      })
-    )?._sum?.amount,
-  );
+  const depositsTotal = transactions
+    .filter((t) => t.type === "DEPOSIT")
+    .reduce((acc, t) => acc + t.amount, 0);
+
+  const investmentsTotal = transactions
+    .filter((t) => t.type === "INVESTMENT")
+    .reduce((acc, t) => acc + t.amount, 0);
+
+  const expensesTotal = transactions
+    .filter((t) => t.type === "EXPENSE")
+    .reduce((acc, t) => acc + t.amount, 0);
 
   const balance = depositsTotal - investmentsTotal - expensesTotal;
 
-  const transactionsTotal = Number(
-    (
-      await db.transaction.aggregate({
-        where,
-        _sum: { amount: true },
-      })
-    )._sum.amount,
-  );
+  const transactionsTotal =
+    depositsTotal + investmentsTotal + expensesTotal;
 
   const typesPercentage: TransactionPercentagePerType = {
     [TransactionType.DEPOSIT]: Math.round(
@@ -72,30 +61,31 @@ export const getDashboard = async (month: string) => {
     ),
   };
 
-  const totalExpensePerCategory: TotalExpensePerCategory[] = (
-    await db.transaction.groupBy({
-      by: ["category"],
-      where: {
-        ...where,
-        type: TransactionType.EXPENSE,
-      },
-      _sum: {
-        amount: true,
-      },
-    })
+  const totalExpensePerCategory: TotalExpensePerCategory[] = Object.values(
+    transactions
+      .filter((t) => t.type === "EXPENSE")
+      .reduce(
+        (acc, t) => {
+          if (!acc[t.category]) {
+            acc[t.category] = {
+              category: t.category,
+              totalAmount: 0,
+              percentageOfTotal: 0,
+            };
+          }
+          acc[t.category].totalAmount += t.amount;
+          return acc;
+        },
+        {} as Record<string, TotalExpensePerCategory>,
+      ),
   ).map((category) => ({
-    category: category.category,
-    totalAmount: Number(category._sum.amount),
+    ...category,
     percentageOfTotal: Math.round(
-      (Number(category._sum.amount) / Number(expensesTotal)) * 100,
+      (category.totalAmount / expensesTotal) * 100,
     ),
   }));
 
-  const lastTransactions = await db.transaction.findMany({
-    where,
-    orderBy: { date: "desc" },
-    take: 10,
-  });
+  const lastTransactions = transactions.slice(0, 10);
 
   return {
     depositsTotal,
@@ -105,5 +95,6 @@ export const getDashboard = async (month: string) => {
     typesPercentage,
     totalExpensePerCategory,
     lastTransactions: JSON.parse(JSON.stringify(lastTransactions)),
+    user,
   };
 };
